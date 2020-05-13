@@ -24,6 +24,14 @@
                 v-model="price">
                 </v-text-field>
 
+                <v-file-input label="File input" @change="uploadImage"></v-file-input>
+
+            
+
+
+
+
+
                 <v-btn color="complete"
                 @click="addNewProductItem()">
                     ADD ITEM    
@@ -73,7 +81,7 @@
 </template>
 
 <script>
-import { dbProductAdd } from '../../../firebase'
+import { dbProductAdd, fb } from '../../../firebase'
 
 export default {
     data () {
@@ -84,6 +92,14 @@ export default {
         }
     },
     methods: {
+        uploadImage(e) {
+            let file = e;
+            console.log(e);
+            var storageRef = fb.storage().ref('products/'+ file.name);
+
+            let uploadTask = storageRef.put(file);
+
+        },
         addNewProductItem() {
             dbProductAdd.add({
                 name: this.name,

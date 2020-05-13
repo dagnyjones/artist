@@ -1,5 +1,20 @@
 <template>
     <v-container>
+
+<v-snackbar top
+      v-model="updatedSuccess"
+    >
+      {{ updatedText }}
+      <v-btn
+        color="pink"
+        text
+        @click="updatedSuccess = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+
+
         <v-row>
             <v-col offset-md="1" md="5">
                 <div class="pa-2" id="info">
@@ -28,7 +43,7 @@
                             </td>
                             <td>{{ item.price }}</td>
                             <td>
-                                <v-btn small text>
+                                <v-btn small text @click.stop="dialog = true" @click="editItem(item)">
                                     <v-icon color="pink">edit</v-icon>
                                 </v-btn>
                             </td>
@@ -100,6 +115,45 @@
                 </div>
             </v-col>
         </v-row>
+
+        <v-row>
+          <v-dialog
+      v-model="dialog"
+      max-width="400"
+    >
+      <v-card>
+        <div class="pa-5" id="info">
+                <h1>EDIT ITEM</h1>
+
+                <v-text-field v-model="item.name"></v-text-field>
+                <v-text-field v-model="item.description"></v-text-field>
+                <v-text-field v-model="item.price"></v-text-field>
+
+               
+
+                <v-btn color="complete"
+                @click="updateItem()"
+                @click.stop="dialog = false">
+                    EDIT ITEM    
+                </v-btn>
+
+                <v-btn color="incomplete"
+                @click.stop="dialog = false">
+                    CLOSE   
+                </v-btn>
+
+                </div>
+
+
+
+
+
+      </v-card>
+    </v-dialog>
+        </v-row>
+
+
+
     </v-container>
 </template>
 
@@ -111,12 +165,18 @@ import { dbProductAdd } from '../../firebase'
     data () {
       return {
         basket: [],
-        productItems: [
-          
-        ],
+        dialog: false,
+        item: [],
+        activeEditItem: null,
+        updatedSuccess: false,
+        updatedText: 'Product Item has been updated'
+       
       }
     },
-    created() {
+    beforeCreate() {
+      this.$store.dispatch('setProductItems')
+    },
+    /* created() {
         dbProductAdd.get().then((querySnapshot) => {
             querySnapshot.forEach((doc =>{
                 console.log(doc.id, " => ", doc.data());
@@ -131,8 +191,23 @@ import { dbProductAdd } from '../../firebase'
         }
 
         )
-    },
+    }, */
     methods: {
+
+      editItem(item) {
+        this.item = item
+        this.activeEditItem = item.id
+      },
+      updateItem() {
+        dbProductAdd.doc(this.activeEditItem).update(this.item)
+        .then(() => {
+          this.updatedSuccess = true;
+          console.log("document has been updated");
+        })
+        .catch(function(error) {
+          console.error("error updating", error);
+        });
+      },
         deleteItem(id) {
             dbProductAdd.doc(id).delete().then(function() {
             
@@ -166,6 +241,9 @@ import { dbProductAdd } from '../../firebase'
       }
     },
     computed: {
+      productItems() {
+        return this.$store.getters.getProductItems
+      },
       subTotal () {
         var subCost = 0;
         for(var items in this.basket) {
