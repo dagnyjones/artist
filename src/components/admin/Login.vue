@@ -38,6 +38,9 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+import 'firebase/firestore'
+
     export default {
         data() {
             return {
@@ -45,7 +48,25 @@
                 password: ''
             }
         },
-        
+        methods: {
+            signIn() {
+                firebase.auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
+                    this.$router.replace('/admin')
+                })
+                .catch(function(error) {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    if (errorCode === 'auth/wrong-password') {
+                        alert ("wrong password")
+                    } else {
+                        alert (errorMessage)
+                    }
+                })
+            },
+            signOut() {
+
+            }
+        },
         
     }
 </script>
