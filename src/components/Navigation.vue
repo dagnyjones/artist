@@ -7,9 +7,9 @@
                  HOME
                 </router-link>
 
-                <!-- <router-link tag="li" to="/products">
-                <v-icon color="white">home</v-icon> PRODUCTS
-                </router-link> -->
+                <router-link tag="li" to="/product">
+                 PRODUCTS
+                </router-link>
 
                 <router-link tag="li" to="/about">
                  ABOUT
