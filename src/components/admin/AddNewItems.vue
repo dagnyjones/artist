@@ -33,7 +33,8 @@
 
 
                 <v-btn color="complete"
-                @click="addNewProductItem()">
+                @click="addNewProductItem()"
+                :disabled="btnDisable">
                     ADD ITEM    
                 </v-btn>
 
@@ -88,7 +89,9 @@ export default {
         return {
             name: '',
             description: '',
-            price: ''
+            price: '',
+            image: null,
+            btnDisable: true
         }
     },
     methods: {
@@ -99,12 +102,34 @@ export default {
 
             let uploadTask = storageRef.put(file);
 
+                uploadTask.on('state_changed', (snapshot) => {
+                
+                }, (error) => {
+                // Handle unsuccessful uploads
+                }, () => {
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    this.image = downloadURL;
+                    this.btnDisable = false;
+                    console.log('File available at', downloadURL);
+                });
+                });
+
+
+
+
+
+
+
+
         },
         addNewProductItem() {
             dbProductAdd.add({
                 name: this.name,
                 description: this.description,
-                price: this.price
+                price: this.price,
+                image: this.image
             })
         }
     }

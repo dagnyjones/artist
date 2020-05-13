@@ -73,6 +73,10 @@
                  LOGIN
                 </router-link>
 
+                <router-link tag="li" v-if="currentUser" to="/orders">
+                 ORDERS
+                </router-link>
+
                 <router-link tag="li" to="/admin">
                  ADMIN
                 </router-link>

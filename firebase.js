@@ -16,3 +16,4 @@ var firebaseConfig = {
 
   export const db = firebase.firestore()
   export const dbProductAdd = db.collection('productItems');
+  export const dbOrders = db.collection('orderItems');

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { dbProductAdd } from '../../firebase'
+import { dbOrders } from '../../firebase'
+
 
 import firebase from 'firebase'
 import 'firebase/firestore'
@@ -10,19 +12,23 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     basketItems: [
-      {
-        name: 'GREEN',
-        description: 'this is green',
-        price: 500,
-        quantity: 1
-      },
+      
     ],
     productItems: [
 
     ],
+    orderItems: [],
     currentUser: null
   },
   mutations: {
+    addCheckoutItem: (state, basketItems) => {
+      dbOrders.add({
+        orderNumber: 2,
+        status: "not started",
+        orderLines: state.basketItems
+
+      })      
+    },
     addBasketItems: (state, basketItems) => {
       if(basketItems instanceof Array) {
         basketItems.forEach(item => {
@@ -64,6 +70,22 @@ export default new Vuex.Store({
       })
     },
 
+      setOrderItems: state => {
+        let orderItems = []
+        dbOrders.onSnapshot((snapshotItems) => {
+          ordertItems = []
+          snapshotItems.forEach((doc) => {
+            var orderItemData = doc.data();
+            orderItems.push({
+              ...ordertItemData,
+              id: doc.id
+            })
+          })
+          state.orderItems = orderItems
+        })
+      
+    }
+
     /* created() {
       dbProductAdd.get().then((querySnapshot) => {
           querySnapshot.forEach((doc =>{
@@ -90,17 +112,27 @@ export default new Vuex.Store({
 
   },
   actions: {
+    setCheckoutItem(context) {
+      context.commit('addCheckoutItem')
+
+    },
     setUser(context, user) {
       context.commit('userStatus', user)
     },
     setProductItems: context => {
       context.commit('setProductItems')
+    },
+    setOrderItems: context => {
+      context.commit('setOrderItems')
     }
+
   },
   getters: {
     getBasketItems: state => state.basketItems,
     currentUser: state => state.currentUser,
-    getProductItems: state => state.productItems
+    getProductItems: state => state.productItems,
+    getOrderItems: state => state.orderItems
+
   },
   modules: {
   }

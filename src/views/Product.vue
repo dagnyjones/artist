@@ -7,6 +7,7 @@
                     <v-simple-table id="product_table">
                         <thead>
                             <tr>
+                              <th></th>
                                 <th class="text-left" style="width:100%">NAME OF ITEM</th>
                                 <th class="text-left" style="width:100%">PRICE</th>
                                 <th class="text-left" style="width:100%">ADD TO BASKET</th>
@@ -14,6 +15,9 @@
                         </thead>
                         <tbody>
                             <tr v-for="item in productItems" :key="item.name">
+                              <td>
+                                <v-img class="image_height" v-bind:src="item.image"></v-img>
+                              </td>
                             <td>
                                 <span id="td_name">{{ item.name }}</span><br>
                                 <span id="product_item_description">{{ item.description }}</span>
@@ -36,6 +40,8 @@
                   <v-simple-table id="product_table" v-if="basket.length > 0">
                         <thead>
                             <tr>
+
+                              
                                 <th class="text-left" style="width:30%">QUANTITY</th>
                                 <th class="text-left" style="width:50%">NAME OF ITEM</th>
                                 <th class="text-left" style="width:20%">PRICE</th>
@@ -43,6 +49,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="item in basket" :key="item.name">
+                              
                                 <td>
                                     <v-icon color="pink" @click="increaseQtn(item)">add_box</v-icon>
                                     {{ item.quantity }}
@@ -75,7 +82,7 @@
                     </v-row>
                     <v-row style="margin:0">
                         <v-spacer></v-spacer>
-                        <v-btn color="pink">
+                        <v-btn color="pink" @click="addCheckoutItem()">
                           CHECKOUT
                         </v-btn>
                     </v-row>
@@ -93,49 +100,17 @@ import { dbProductAdd } from '../../firebase'
     data () {
       return {
         basketDump: [],
-        productItems: [
-          /* {
-            name: 'POSTER 1',
-            description: 'lalala',
-            price: 100,
-          },
-          {
-            name: 'POSTER 2',
-            description: 'lalala',
-            price: 100,
-          },{
-            name: 'POSTER 3',
-            description: 'lalala',
-            price: 100,
-          },{
-            name: 'POSTER 4',
-            description: 'lalala',
-            price: 100,
-          },{
-            name: 'POSTER 5',
-            description: 'lalala',
-            price: 100,
-          }, */
-        ],
+       
       }
     },
-    created() {
-        dbProductAdd.get().then((querySnapshot) => {
-            querySnapshot.forEach((doc =>{
-                console.log(doc.id, " => ", doc.data());
-                var productItemData = doc.data();
-                this.productItems.push({
-                    id: doc.id,
-                    name: productItemData.name,
-                    description: productItemData.description,
-                    price: productItemData.price
-                })
-            }))
-        }
-
-        )
+     beforeCreate() {
+      this.$store.dispatch('setProductItems')
     },
     methods: {
+      addCheckoutItem() {
+        this.$store.dispatch('setCheckoutItem')
+        
+      },
       addToBasket(item) {
         /* if(this.basket.find(itemInArray => item.name === itemInArray.name)) {
           item = this.basket.find(itemInArray => item.name);
@@ -169,9 +144,14 @@ import { dbProductAdd } from '../../firebase'
       }
     },
     computed: {
+      
       basket() {
         // return this.$store.state.basketItems
         return this.$store.getters.getBasketItems
+      },
+      productItems() {
+        return this.$store.getters.getProductItems
+
       },
       subTotal () {
         var subCost = 0;
@@ -211,12 +191,22 @@ tr td {
   font-size: 15px;
 }
 
+#td_productitem_img {
+  max-width: 40px;
+  max-height: 40px;
+  padding: 0;
+}
+
 #basket_checkout {
   font-size: 15px;
 }
 
 #basket_checkout p:first-child {
   line-height: 2px;
+}
+
+.image_height {
+  max-height: 40%;
 }
 
 
