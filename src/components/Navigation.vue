@@ -15,6 +15,14 @@
                  ABOUT
                 </router-link>
 
+                <router-link tag="li" to="/login">
+                 LOGIN
+                </router-link>
+
+                <router-link tag="li" to="/admin">
+                 ADMIN
+                </router-link>
+
                 <!-- <router-link tag="li" to="/login">
                 <v-icon color="white">info</v-icon> LOGIN
                 </router-link> -->

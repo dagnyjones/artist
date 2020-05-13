@@ -33,5 +33,9 @@ main {
   //background-size: cover;
 }
 
+#info {
+  background-color: white;
+}
+
   
 </style>

@@ -7,9 +7,17 @@
                     <v-simple-table id="product_table">
                         <thead>
                             <tr>
-                                <th class="text-left" style="width:100%">NAME OF ITEM</th>
+                                <th class="text-left" style="width:100%">
+                                    <v-btn color="pink" small text to="/addNew">
+                                    <v-icon>add</v-icon>
+                                    <span style="padding:0 10px;">
+                                        ADD ITEM
+                                    </span>
+                                    </v-btn>
+                                    </th>
                                 <th class="text-left" style="width:100%">PRICE</th>
-                                <th class="text-left" style="width:100%">ADD TO BASKET</th>
+                                <th class="text-left" style="width:100%">EDIT</th>
+                                <th class="text-left" style="width:100%">REMOVE</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -19,6 +27,16 @@
                                 <span id="product_item_description">{{ item.description }}</span>
                             </td>
                             <td>{{ item.price }}</td>
+                            <td>
+                                <v-btn small text>
+                                    <v-icon color="pink">edit</v-icon>
+                                </v-btn>
+                            </td>
+                             <td>
+                                <v-btn small text @click="deleteItem(item.id)">
+                                    <v-icon color="incomplete">delete</v-icon>
+                                </v-btn>
+                            </td>
                             <td>
                               <v-btn small text>
                               <v-icon color="pink" @click="addToBasket(item)">add_box</v-icon>
@@ -94,28 +112,7 @@ import { dbProductAdd } from '../../firebase'
       return {
         basket: [],
         productItems: [
-          /* {
-            name: 'POSTER 1',
-            description: 'lalala',
-            price: 100,
-          },
-          {
-            name: 'POSTER 2',
-            description: 'lalala',
-            price: 100,
-          },{
-            name: 'POSTER 3',
-            description: 'lalala',
-            price: 100,
-          },{
-            name: 'POSTER 4',
-            description: 'lalala',
-            price: 100,
-          },{
-            name: 'POSTER 5',
-            description: 'lalala',
-            price: 100,
-          }, */
+          
         ],
       }
     },
@@ -136,6 +133,14 @@ import { dbProductAdd } from '../../firebase'
         )
     },
     methods: {
+        deleteItem(id) {
+            dbProductAdd.doc(id).delete().then(function() {
+            
+            // }).catch(function(error) {
+            
+            });
+
+        },
       addToBasket(item) {
         if(this.basket.find(itemInArray => item.name === itemInArray.name)) {
           item = this.basket.find(itemInArray => item.name);
