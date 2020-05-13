@@ -92,7 +92,7 @@ import { dbProductAdd } from '../../firebase'
      export default {
     data () {
       return {
-        basket: [],
+        basketDump: [],
         productItems: [
           /* {
             name: 'POSTER 1',
@@ -137,7 +137,7 @@ import { dbProductAdd } from '../../firebase'
     },
     methods: {
       addToBasket(item) {
-        if(this.basket.find(itemInArray => item.name === itemInArray.name)) {
+        /* if(this.basket.find(itemInArray => item.name === itemInArray.name)) {
           item = this.basket.find(itemInArray => item.name);
           this.increaseQtn(item);
         }
@@ -147,7 +147,15 @@ import { dbProductAdd } from '../../firebase'
           price: item.price,
           quantity: 1
           })
-        }
+        } */
+        this.basketDump.push({
+          name: item.name,
+          price: item.price,
+          quantity: 1
+          });
+          this.$store.commit('addBasketItems', this.basketDump);
+          this.basketDump = [];
+          
       },
       increaseQtn(item) {
         item.quantity++
@@ -161,6 +169,10 @@ import { dbProductAdd } from '../../firebase'
       }
     },
     computed: {
+      basket() {
+        // return this.$store.state.basketItems
+        return this.$store.getters.getBasketItems
+      },
       subTotal () {
         var subCost = 0;
         for(var items in this.basket) {
