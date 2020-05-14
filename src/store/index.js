@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { dbProductAdd } from '../../firebase'
 import { dbOrders } from '../../firebase'
-
-
 import firebase from 'firebase'
 import 'firebase/firestore'
 
@@ -11,6 +9,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    counter: 0,
     basketItems: [
       
     ],
@@ -23,8 +22,10 @@ export default new Vuex.Store({
   mutations: {
     addCheckoutItem: (state, basketItems) => {
       dbOrders.add({
-        orderNumber: 2,
-        status: "not started",
+        archive: false,
+        storeOrder: false,
+        orderNumber: state.conter++,
+        status: "incomplete",
         orderLines: state.basketItems
 
       })      
@@ -72,45 +73,23 @@ export default new Vuex.Store({
 
       setOrderItems: state => {
         let orderItems = []
-        dbOrders.onSnapshot((snapshotItems) => {
-          ordertItems = []
-          snapshotItems.forEach((doc) => {
-            var orderItemData = doc.data();
-            orderItems.push({
-              ...ordertItemData,
-              id: doc.id
-            })
+ 
+      dbOrders.onSnapshot((snapshotItems) => {
+        orderItems = []
+        snapshotItems.forEach((doc) => {
+          var orderItemData = doc.data();
+          orderItems.push({ 
+            
+            ...orderItemData,
+            id: doc.id  
           })
-          state.orderItems = orderItems
+        
         })
-      
+        state.orderItems = orderItems
+      })        
     }
-
-    /* created() {
-      dbProductAdd.get().then((querySnapshot) => {
-          querySnapshot.forEach((doc =>{
-              console.log(doc.id, " => ", doc.data());
-              var productItemData = doc.data();
-              this.productItems.push({
-                  id: doc.id,
-                  name: productItemData.name,
-                  description: productItemData.description,
-                  price: productItemData.price
-              })
-          }))
-      }
-
-      )
-  }, */
-
-
-
-
-
-
-
-
   },
+
   actions: {
     setCheckoutItem(context) {
       context.commit('addCheckoutItem')

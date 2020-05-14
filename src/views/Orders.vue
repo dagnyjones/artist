@@ -2,60 +2,55 @@
     <v-container fluid>
         <v-row>
             <v-col offset-md="1" md="6">
+                <h1>ORDERS</h1>
+
                 <div class="pa-2" id="info">
-                    <h1>ORDERS</h1>
-                    <v-row>
+                    <v-row class="ma-0">
                         <v-col cols="12" md="1" class="pa-2">
-                            <p class="font-weight-bold body-1 pl-1">
-                                INFO
+                            <p class="font-weight-bold body-1 pl-1 dark--text">
+                                INFO:
                             </p>
                         </v-col>
-                        <v-col cols="12" md="5" class="pa-2 pl-5" >
-                            <v-row align="center">
-                                <div id="status_box" class="complete">
-                                    COMPLETED
-                                </div>
-                                <span class="font-weight-light caption pl-1">DONE</span>
-                            </v-row>
+                        
 
-                            <v-row align="center">
-                                <div id="status_box" class="purple">
-                                    IN PROGRESS
-                                </div>
-                                <span class="font-weight-light caption pl-1">BEING WORKED ON</span>
-                            </v-row>
+                        <v-col cols="12" md="5" class="pa-2 pl-5">
+                           
+                               <v-row align="center">
+                                   <div id="status_box" class="complete">COMPLETED</div>
+                                   <span class="font-weight-light caption pl-1">DONE</span>
+                               </v-row>
 
-                            <v-row align="center">
-                                <div id="status_box" class="incomplete">
-                                    NOT STARTED
-                                </div>
-                                <span class="font-weight-light caption pl-1">NOT STARTED</span>
-                            </v-row>
+                               <v-row align="center">
+                                   <div id="status_box" class="inprogress">IN PROGRESS</div>
+                                   <span class="font-weight-light caption pl-1">SOMEBODY IS WORKING ON IT</span>
+                               </v-row>
+
+                               <v-row align="center">
+                                   <div id="status_box" class="incomplete">NOT STARTED</div>
+                                   <span class="font-weight-light caption pl-1">NOT STARTED</span>
+                               </v-row>
+                           
                         </v-col>
 
                         <v-col cols="12" md="6" class="pa-2">
                             <v-row>
-                                <div id="status_box" class="complete">
-                                    COMPLETED
-                                </div>
-                                <div id="status_box" class="purple">
-                                    IN PROGRESS
-                                </div>
-                                <div id="status_box" class="incomplete">
-                                    NOT STARTED
-                                </div>
+                                <div id="status_box" class="complete">completed</div>
+                                <div id="status_box" class="inprogress">in progress</div>
+                                <div id="status_box" class="incomplete">not started</div>
+                            </v-row>
 
-                            </v-row>
                             <v-row>
-                            <p class="font-weight-light caption pl-1">
-                                <b>Single-click </b>to switch stage: complete => in progress =>
-                                <b>Double-click </b>the box to reset to "not started"
-                            </p>
-                            <span class="font-weight-light caption pl-1">
-                                <v-icon color="pink">archive</v-icon>
-                                Archive to "hide" it from orders list.
-                            </span>
+                                <p class="font-weight-light pl-1 caption">
+                                    <b>Single Click</b> to stop : complete => in progess => <b>Double click</b> the box to reset to "not started"
+                                </p>
+                                <span class="font-weight-light caption pl-1">
+                                    <v-icon color="dark">archive</v-icon>
+                                    click this to archive
+                                </span>
                             </v-row>
+                           
+
+
                         </v-col>
                     </v-row>
 
@@ -65,62 +60,93 @@
 
                 </div>
 
-                <!-- order list area -->
+
+
+
+<!-- order list area -->
                 <div class="pa-2 mt-1" id="info">
 
-                    <p class="font-weight-bold body-1 pl-1">
-                                ORDERS:
-                    </p>
+                    <p class="font-weight-bold body-1 pa-3 dark--text">ORDERS:</p>
                   
                     <v-simple-table id="product_table">
-                        
                         <thead>
                             <tr>
-                              
-                                <th class="text-left" style="width:10%">ORDER NUMBER</th>
-                                <th class="text-left" style="width:10%">QUANTITY</th>
-                                <th class="text-left" style="width:40%">ITEM</th>
-                                <th class="text-left" style="width:10%">PRICE</th>
-                                <th class="text-left" style="width:10%">STATUS</th>
-                                <th class="text-left" style="width:10%">ARHCIVED ITEM</th>
-                                <th class="text-left" style="width:10%">REMOVE</th>
+                                <th class="text-left" style="width:10%">Order Number</th>
+                                <th class="text-left" style="width:10%">Qty</th>
+                                <th class="text-left" style="width:40%">Item</th>
+                                <th class="text-left" style="width:10%">Price</th>
+                                <th class="text-left" style="width:10%">Status</th>
+                                <th class="text-left" style="width:10%">Archive</th>
+                                <th class="text-left" style="width:10%">Remove</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="item in orderItems" :key="item.name">
+                        <tbody class="font-weight-light">
+                            <tr v-for="item in orderItems" :key="item.name" v-if="item.storeOrder == false">
+                                <td>
+                                    {{ item.orderNumber }}
+                                </td>
+                                <td class="py-3"><p v-for="subItem in item.orderLines" :key="subItem.id" style="margin:0">
+                                    {{ subItem.quantity }}</p></td>
 
-                            <td>{{ item.orderNumber }}</td>
+                                <td v-for="subItem in item.orderLines" :key="subItem.id"><p v-for="subItem in item.orderLines" :key="subItem.id" style="margin:0">
+                                    {{ subItem.name }}</p></td>
 
-                            <td v-for="subItem in item.orderLines" :key="subItem.id" >{{ subItem.quantity }}</td>
+                                <td v-for="subItem in item.orderLines" :key="subItem.id"><p v-for="subItem in item.orderLines" :key="subItem.id" style="margin:0">
+                                    {{ subItem.price }}</p></td>
 
-                            <td v-for="subItem in item.orderLines" :key="subItem.id">{{ subItem.name }}</td>
+                                <td>
+                                    <div id="status_box" v-bind:class="item.status" @click="switchStage(item.id)">
+                                        {{ item.status }}
+                                    </div>
+                                </td>
 
-                            <td v-for="subItem in item.orderLines" :key="subItem.id">{{ subItem.price }}</td>
+                                <td>
+                                    <v-btn small text @click="archiveOrderItem(item.id)">
+                                        <v-icon color="dark">archive</v-icon>
+                                    </v-btn>
+                                </td>
 
-                            <td><div id="status_box" class="purple">
-                                    {{ status }}
-                                </div></td>
-                            <td><v-btn small text @click="addToBasket(item)">
-                                <v-icon color="dark">archive</v-icon></v-btn></td>
-                            <td><v-btn small text @click="addToBasket(item)">
-                                <v-icon color="incomplete">delete</v-icon></v-btn></td>
-                            
+                                <td>
+                                    <v-btn small text @click="deleteOrderItem(item.id)">
+                                        <v-icon color="incomplete">delete</v-icon>
+                                    </v-btn>
+                                </td>                               
                             </tr>
                         </tbody>
                     </v-simple-table>
                 </div>
+
+
             </v-col>
           
-            <v-col offset-md="1" md="5">
-                <div class="pa-2" id="info">
+            <v-col offset-md="0" md="4">
                 <h1>REVENUE</h1>
-                    
-                   revenue
+                <div class="pa-2" id="info"> 
+                    <p class="font-weight-bold body-1 dark--text">Completed orders:</p>  
+                    <div>
+                        <p id="totalOrders">
+                            Total Orders:
+                            <span class="incomplete--text font-weight-bold"> {{ orderItems.length }} </span>
+                        </p>
+                    </div> 
+                    <div id="revenueList" v-for="item in orderItems" :key="item.name" v-if="item.archive === true">
+                    <p>Order Number:
+                        {{ item.orderNumber }}
+                        <v-btn small text @click="deleteOrderItem(item.id)">
+                            <v-icon color="incomplete">delete</v-icon>
+                        </v-btn>
+                        </p>    
+                    </div> 
                 </div>
-                <div class="pa-2 mt-1" id="info">
-                
-                    
-                   completed orders
+
+                <div class="pa-2 mt-1" id="info">   
+                    <div id="totalRevenue">
+                        <p id="totalRevenueText">
+                            Total Revenue: <span id="totalRevenueTextTotal">
+                                {{ revenueTotal }}
+                            </span>
+                        </p>
+                    </div> 
                 </div>
             </v-col>
         </v-row>
@@ -129,7 +155,7 @@
 
 <script>
 
-import { dbProductAdd } from '../../firebase'
+import { dbOrders } from '../../firebase'
 
      export default {
     data () {
@@ -142,6 +168,54 @@ import { dbProductAdd } from '../../firebase'
       this.$store.dispatch('setOrderItems')
     },
     methods: {
+
+        switchStage(id) {
+            let selectedOrderItem = this.orderItems
+            .filter(item => item.id === id)[0];
+
+            if(selectedOrderItem.status === "inprogress")  {
+                dbOrders.doc(id).update({status:"complete"})
+                .then(() => {
+
+                 })
+            }
+
+             else if(selectedOrderItem.status === "incomplete")  {
+                dbOrders.doc(id).update({status:"inprogress"})
+                .then(() => {
+
+                 })
+            }
+
+             else if(selectedOrderItem.status === "complete")  {
+                dbOrders.doc(id).update({status:"incomplete"})
+                .then(() => {
+
+                 })
+            }
+        },
+
+        archiveOrderItem(id) {
+            dbOrders.doc(id).update({archive: true, storeOrder: true})
+            .then(() => {})
+        },
+
+        deleteOrderItem(id) {
+            dbOrders.doc(id).delete().then(() => {
+                console.log("stuff is deleted");
+                
+            }).catch((error) => {
+
+            })
+
+
+        },
+
+
+      addCheckoutItem() {
+        this.$store.dispatch('setCheckoutItem')
+        
+      },
       addToBasket(item) {
         /* if(this.basket.find(itemInArray => item.name === itemInArray.name)) {
           item = this.basket.find(itemInArray => item.name);
@@ -159,6 +233,7 @@ import { dbProductAdd } from '../../firebase'
           price: item.price,
           quantity: 1
           });
+
           this.$store.commit('addBasketItems', this.basketDump);
           this.basketDump = [];
           
@@ -180,23 +255,24 @@ import { dbProductAdd } from '../../firebase'
         // return this.$store.state.basketItems
         return this.$store.getters.getBasketItems
       },
-      OrderItems() {
+      orderItems() {
         return this.$store.getters.getOrderItems
 
       },
-      subTotal () {
-        var subCost = 0;
-        for(var items in this.basket) {
-          var individualItem = this.basket[items];
-          subCost += individualItem.quantity * individualItem.price;
-        }
-        return subCost
-      },
-      total () {
-        var deliveryPrice = 10;
-        var totalCost = this.subTotal
-        return totalCost + deliveryPrice
-      }
+     revenueTotal() {
+         var revenueIncome = 0;
+
+         this.orderItems.forEach(element => {
+             if(element.archive == true) {
+                 element.orderLines.forEach(elem => {
+                     revenueIncome += elem.price * elem.quantity
+                 })
+             }
+
+         });
+         return revenueIncome
+
+     },
     }
   }
 </script>
@@ -208,11 +284,31 @@ import { dbProductAdd } from '../../firebase'
     justify-content: center;
     align-items: center;
     height: 35px;
-    width: 90px;
+    width:90px;
     font-size: 12px;
     border-radius: 2px;
-    margin: 5px 0;
-    color: white;
+    margin: 0;
+    color: black; 
+}
+
+#totalRevenue {
+    padding: 20px 10px 20px 0;
+    display: flex;
+}
+
+#totalRevenueText {
+    display: flex;
+    margin: 0;    
+    justify-content: space-between;
+    font-style: italic;
+    width: 100%;
+}
+
+#totalRevenueTextTotal {
+    text-decoration: underline;
+    border-bottom: 1px solid black;
+    font-weight: bold;
+    font-style: normal;
 }
 
 
