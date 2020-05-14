@@ -33,8 +33,8 @@ import Toolbar from './components/Toolbar.vue'
 
 main {
   background-color: white;
-  //background-image: url('');
-  //background-size: cover;
+  background-image: url('assets/background.jpg');
+  background-size: cover;
 }
 
 #info {

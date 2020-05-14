@@ -7,7 +7,7 @@
 
     <div>
 
-        <v-navigation-drawer color="dark" v-model="drawer" app>
+        <v-navigation-drawer color="pink" v-model="drawer" app>
 
           <div>
 
@@ -21,7 +21,7 @@
                 <v-card
                 class="mx-auto"
                 tile
-                color="dark"
+                color="pink"
             >
                 
       <v-row
@@ -36,7 +36,7 @@
         >
           
         </v-col>
-        <v-col v>
+        <v-col>
           <v-list-item dark>
             <v-list-item-content>
               <v-list-item-title class="title" >{{ currentUser.email }}</v-list-item-title>
@@ -90,7 +90,7 @@
             </ul>
         </v-navigation-drawer>
 
-        <v-app-bar app color="dark" dark>
+        <v-app-bar app color="pink" dark>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
             <v-toolbar-title class="headline">
@@ -102,14 +102,14 @@
 
     <div id="nav-buttons">
 
-      <v-btn elevation="0" color="dark">
+      <v-btn elevation="0" color="pink">
         <router-link tag="li" to="/login">
           <v-icon>account_box</v-icon>
         </router-link>
         
       </v-btn>
 
-      <v-btn elevation="0" color="dark">
+      <v-btn elevation="0" color="pink">
         <router-link tag="li" to="/cart">
           <v-icon>shopping_cart</v-icon>
         </router-link>  

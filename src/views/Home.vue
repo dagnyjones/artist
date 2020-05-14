@@ -1,70 +1,68 @@
 <template>
-  <v-container grid-list-xs>
-    <!-- first box -->
-    <v-layout align-center class="info_box">
-      <v-flex sm3 xs12 offset-sm6>
-        <div>
-          <h1>
-            SHOP
-          </h1>
-        </div>
-        <div>
-          <p>
-            lalaala
-          </p>
-        </div>
-      </v-flex>
-    </v-layout>
-    <!-- second box -->
-    <v-layout align-center class="info_box" row-wrap>
-      <v-flex sm6 xs12 offset-sm6> 
-        <div>
-          <h1>
-            SHOP
-          </h1>
-        </div>
-        <div>
-          <p>
-            lalaala
-          </p>
-        </div>
-      </v-flex>
-    </v-layout>      
-  </v-container>
+  <v-carousel
+  id="slider"
+    cycle
+    height="690"
+    hide-delimiter-background
+    show-arrows-on-hover
+  >
+    <v-carousel-item
+    id="slider"
+      v-for="(slide, i) in slides"
+      :key="i"
+    >
+      <v-sheet
+      id="slider"
+        :color="colors[i]"
+        height="100%"
+      >
+        <v-row
+        id="slider"
+          class="fill-height"
+          align="center"
+          justify="center"
+        >
+          <div class="display-3">
+              <span>{{ slide }}</span><br>
+              
+          </div>
+        </v-row>
+      </v-sheet>
+    </v-carousel-item>
+  </v-carousel>
 </template>
 
 <script>
-// @ is an alias to /src
- // import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'Home',
-  components: {
-    // HelloWorld
+  export default {
+    data () {
+      return {
+        colors: [
+          'pink lighten-2',
+          'blue lighten-3',
+          'light-green accent-3',
+          'yellow ',
+          'deep-orange ',
+        ],
+        slides: [
+          'WELCOME TO POSTERS BY DAGNY',
+          'SHOP FOR AMAZING ART PRINTS',
+          'POSTERS FOR EVERY SINGLE ROOM OR BATHROOM',
+          'AMAZING PRICES',
+          '100% SERVICE 24/7',
+        ],
+      }
+    },
   }
-}
 </script>
 
 <style lang="scss">
 
-/* .info_box .flex h1 {
-     @include infobox_mixin(5px, map-get($colorz, white), 10px, 5px, map-get($colorz, white));
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 16px;
-    text-align: center 
-} */
-
-.info_box .flex div {
- padding: 20px;  
+#slider {
+  background-size: cover;
 }
 
-.layout:first-child {
-  height: 40vh;
+.class {
+  display: flex;
+  justify-content: center;
 }
-
-.layout:last-child {
-  height: 40vh;
-}
-  
 </style>
