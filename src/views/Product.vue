@@ -1,92 +1,31 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col offset-md="1" md="5">
-                <div class="pa-2" id="info">
-                  <h1>PRODUCT ITEM</h1>
-                    <v-simple-table id="product_table">
-                        <thead>
-                            <tr>
-                              <th></th>
-                                <th class="text-left" style="width:100%">NAME OF ITEM</th>
-                                <th class="text-left" style="width:100%">PRICE</th>
-                                <th class="text-left" style="width:100%">ADD TO BASKET</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in productItems" :key="item.name">
-                              <td>
-                                <v-img class="image_height" v-bind:src="item.image"></v-img>
-                              </td>
-                            <td>
-                                <span id="td_name">{{ item.name }}</span><br>
-                                <span id="product_item_description">{{ item.description }}</span>
-                            </td>
-                            <td>{{ item.price }}</td>
-                            <td>
-                              <v-btn small text>
-                              <v-icon color="pink" @click="addToBasket(item)">add_box</v-icon>
-                              </v-btn>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </v-simple-table>
-                </div>
-            </v-col>
-          
-            <v-col offset-md="1" md="5">
-                <div class="pa-2" id="info">
-                  <h1>BASKET</h1>
-                  <v-simple-table id="product_table" v-if="basket.length > 0">
-                        <thead>
-                            <tr>
+    <v-container fluid>
+        <v-row align="center" justify="center">
 
-                              
-                                <th class="text-left" style="width:30%">QUANTITY</th>
-                                <th class="text-left" style="width:50%">NAME OF ITEM</th>
-                                <th class="text-left" style="width:20%">PRICE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in basket" :key="item.name">
-                              
-                                <td>
-                                    <v-icon color="pink" @click="increaseQtn(item)">add_box</v-icon>
-                                    {{ item.quantity }}
-                                  
-                                    <v-icon color="pink" @click="decreaseQtn(item)">indeterminate_check_box</v-icon>
-                                </td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ item.price }}</td>
-                            </tr>
-                        </tbody>
-                    </v-simple-table>
-
-                    <v-simple-table v-else>
-                      <p>THE BASKET IS EMPTY</p>
-                    </v-simple-table>
-
-
-                    <v-divider></v-divider> 
-                    <v-row id="basket_checkout" class="mt-4" style="margin:0">
-                      <v-col>
-                        <p>SUBTOTAL: </p>
-                        <p>DELIVERY: </p>
-                        <p><b>TOTAL AMOUNT: </b></p>
-                      </v-col>
-                      <v-col class="text-right">
-                        <p> {{ subTotal }} DKK</p>
-                        <p>10 DKK</p>
-                        <p><b> {{ total }} DKK</b></p>
-                      </v-col>
-                    </v-row>
-                    <v-row style="margin:0">
-                        <v-spacer></v-spacer>
-                        <v-btn color="pink" @click="addCheckoutItem()">
-                          CHECKOUT
-                        </v-btn>
-                    </v-row>
-                </div>
+            <v-col offset-md="0" md="10">
+                <div id="headline"><h1>POSTER SELECTION</h1></div>
+                <div class="pa-2" id="info" >
+                  <v-container class="image_height" fluid>
+                  <v-row no-gutters >
+                    <v-col cols="12" sm="4" v-for="item in productItems" :key="item.name">
+                      <v-card class="pa-1">
+                        <v-img style=" height:400px" class="image_height" v-bind:src="item.image" ></v-img>
+                        <v-divider></v-divider>
+                        <p><span id="td_name"  > {{ item.name }} </span></p> <br>
+                        <span id="product_item_description" class="pa-1" > {{ item.description }} </span> 
+                        <v-divider></v-divider>
+                        <p id="price_text" class="pa-2">{{ item.price }} DKK</p>
+                          <v-btn class="add_to_cart" small text @click="addToBasket(item)" color="pink" dark>
+                            ADD TO CART    
+                              <v-icon color="pink">
+                                  add_shopping_cart
+                              </v-icon>
+                          </v-btn>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </div>
             </v-col>
         </v-row>
     </v-container>
@@ -180,36 +119,75 @@ tr th {
 }
 #td_name {
   font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 5px;
+  margin: 0;
+  font-size: 20px;
+  color: map-get($colorz, pink);
+  
 }
-tr td {
-  padding: 10px 10px 10px 20px;
-}
+
 #product_item_description {
+  display: flex;
+  justify-content: center;
   font-style: italic;
   font-weight: 300;
   color: map-get($colorz, pink);
   font-size: 15px;
+  
+}
+
+#price_text {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 10px;
+  font-size: 20px;
+  color: map-get($colorz, dark);
+}
+
+.add_to_cart {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 5px;
+  margin: 0;
+  font-size: 20px;
+  color: map-get($colorz, pink);
 }
 
 #td_productitem_img {
+  
   max-width: 40px;
   max-height: 40px;
   padding: 0;
-}
 
-#basket_checkout {
-  font-size: 15px;
-}
-
-#basket_checkout p:first-child {
-  line-height: 2px;
 }
 
 .image_height {
-  max-height: 40%;
+  
 }
 
+#headline {
+  display: flex;
+  justify-content: center;
+  color: map-get($colorz, pink);
+  font-size: 30px;
+  padding: 20px;
+}
 
+  
+
+
+
+
+
+
+  
 
 
 </style>

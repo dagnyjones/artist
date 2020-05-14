@@ -1,5 +1,6 @@
 <template>
   <v-app id="app">
+    <toolbar />
     <navigation />
     <v-content>
       <router-view></router-view>
@@ -10,10 +11,13 @@
 <script>
 
 import Navigation from './components/Navigation.vue'
+import Toolbar from './components/Toolbar.vue'
 
   export default {
     components: {
+      Toolbar,
       Navigation
+      
     },
     name: 'App',
     props: {

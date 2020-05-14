@@ -1,59 +1,52 @@
+
+
+
+
+
 <template>
+
     <div>
 
         <v-navigation-drawer color="dark" v-model="drawer" app>
-            <div v-if="currentUser">
+
+          <div>
+
+          </div>
+
+      
+
+
+            <div v-if="currentUser" >
 
                 <v-card
                 class="mx-auto"
-                max-width="200"
                 tile
+                color="dark"
             >
-                <v-img
-                height="100%"
-                src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-                >
+                
       <v-row
         align="end"
         class="fill-height"
+        
       >
         <v-col
           align-self="start"
           class="pa-0"
           cols="12"
         >
-          <v-avatar
-            class="profile"
-            color="grey"
-            size="65"
-            tile
-          >
-            <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
-          </v-avatar>
+          
         </v-col>
-        <v-col class="py-0">
-          <v-list-item
-            color="rgba(0, 0, 0, .4)"
-            dark
-          >
+        <v-col v>
+          <v-list-item dark>
             <v-list-item-content>
-              <v-list-item-title class="title">{{ currentUser.email }}</v-list-item-title>
+              <v-list-item-title class="title" >{{ currentUser.email }}</v-list-item-title>
 
             </v-list-item-content>
           </v-list-item>
         </v-col>
       </v-row>
-    </v-img>
   </v-card>
-
-
-
-
-
-
-
-                <h4>    </h4>
-            </div>
+</div>
 
 
             <ul>
@@ -65,6 +58,10 @@
                  PRODUCTS
                 </router-link>
 
+                <router-link tag="li" to="/cart">
+                 CART
+                </router-link>
+
                 <router-link tag="li" to="/about">
                  ABOUT
                 </router-link>
@@ -72,6 +69,8 @@
                 <router-link tag="li" to="/login">
                  LOGIN
                 </router-link>
+
+                
 
                 <router-link tag="li" v-if="currentUser" to="/orders">
                  ORDERS
@@ -98,6 +97,34 @@
                 <span class="font-weight-bold">POSTERS BY </span>
                 <span class="font-weight-light">DAGNY JONS</span>
             </v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+    <div id="nav-buttons">
+
+      <v-btn elevation="0" color="dark">
+        <router-link tag="li" to="/login">
+          <v-icon>account_box</v-icon>
+        </router-link>
+        
+      </v-btn>
+
+      <v-btn elevation="0" color="dark">
+        <router-link tag="li" to="/cart">
+          <v-icon>shopping_cart</v-icon>
+        </router-link>  
+      </v-btn>
+
+  </div>
+
+      <v-menu
+        left
+        bottom
+      >
+        
+
+        
+      </v-menu>
 
         </v-app-bar>
 
@@ -159,5 +186,13 @@ nav li:last-child {
     bottom: 40px;
     color: map-get($colorz, white);
 }
+
+#nav-buttons {
+
+  text-decoration: none;
+  list-style-type: none;  
+
+}
+
 
 </style>

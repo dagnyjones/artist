@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Product from '../views/Product.vue'
+import Cart from '../views/Cart.vue'
 import Admin from '../views/Admin.vue'
 import Orders from '../views/Orders.vue'
 import AddNewItems from '../components/admin/AddNewItems.vue'
@@ -23,6 +24,11 @@ Vue.use(VueRouter)
     path: '/product',
     name: 'Product',
     component: Product
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
   },
   {
     path: '/about',
